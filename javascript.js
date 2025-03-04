@@ -21,10 +21,7 @@ function getHumanChoice(){ //the players' choice
     }
 }
 function playRound(compChoice, humanChoice){ //start of the round
-    compChoice = getComputerChoice(); //get comp answer
-    humanChoice = getHumanChoice(); //get human answer
-    console.log('Computer plays '+ compChoice);//reply comp answer
-    console.log('Human plays '+ humanChoice);//reply human answer
+    
     let winner = '';
     let winCond = compChoice+humanChoice;
     if(compChoice == humanChoice){  //in case of tie
@@ -34,47 +31,52 @@ function playRound(compChoice, humanChoice){ //start of the round
     } else {
         return 'Human'; // in case of win
     }
-    //return winner
-
 }
 
-
-// console.log(compAnswer); //display computer answer
-
-// console.log(humanAnswer); // display human answer
 let compAnswer = ''//initialize computer response
 let humanAnswer = ''//initialize human response
 let compScore = 0; //initialize computer score
 let humanScore = 0; //initialize human score
 let winner = ""//initialize winner
+// make them edit instead of create
+//edit p element and store in const compPlays
+const compPlays = document.querySelector(".compPlays");
+//edit p element and store in const result
+const result = document.querySelector(".result");
+//edit p element and store in const score
+const score = document.querySelector(".score");
 
-for(let i = 0; i < 5; i++){ //game runs for 5 rounds
+//create constant representing the node list
+const buttons = document.querySelectorAll("button");
+
+//add event listener to start the round
+buttons.forEach((button) => { //iterate through each button
+    button.addEventListener("click", function (e) {
+        //get human answer from button data
+        humanAnswer = e.target.id;
+        compAnswer = getComputerChoice();//computer var asks the function
+
+        //add text into the compPlays element
+        compPlays.textContent = 'Computer plays '+ compAnswer;
+
+        winner = playRound(compAnswer, humanAnswer);//variables go head to head
     
-    // compAnswer = getComputerChoice();//computer var asks the function
-    // humanAnswer = getHumanChoice();//human var asks the function
-    winner = playRound(compAnswer, humanAnswer);//variables go head to head
-    
-    if (winner == 'Computer') {
+        if (winner == 'Computer') {
         compScore++;
-        console.log(winner+' won the round');//display round winner
-    } if (winner == 'Human') {
+        //add text into the result element
+        result.textContent = winner+' won the round';
+         } if (winner == 'Human') {
         humanScore++;
-        console.log(winner+' won the round');//display round winner
-    } else {
-        console.log('Nobody Won!');
-    }
-    console.log ('PC: ' + compScore + '| You: ' + humanScore); //announces scores
-}
-
-if(compScore < humanScore){ 
-    console.log('You win!'); // announce winner
-
-}if (compScore > humanScore) {
-    console.log('You lose!');
-
-}
-if (compScore == humanScore){
-   console.log('You tied!');
+        //add text into the result element
+        result.textContent = winner+' won the round';
+         } else {
+        //add text into the result element
+        result.textContent = 'Nobody won!';
+         }
+         
+         //add text into the score element
+        score.textContent = 'PC: ' + compScore + '| You: ' + humanScore;
+    });
+});
     
-}
-
+    
